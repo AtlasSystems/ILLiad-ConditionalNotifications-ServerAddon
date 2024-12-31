@@ -95,7 +95,7 @@ function SendConditionalNotifications()
         templateName = Settings.LoanEmailName;
     end
 
-    local emailSent = HasEmailBeenSent(transactionNumber, templateName);
+    local emailSent = HasEmailBeenSent(transactionNumber, templateName:gsub("'", "''"));
     if emailSent == true then
         log:Debug("Conditional notification has already been sent for transaction " .. transactionNumber .. ".");
         return;
