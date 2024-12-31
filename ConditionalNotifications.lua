@@ -135,7 +135,7 @@ function HasEmailBeenSent(transactionNumber, templateName)
     local success, subjectCountOrErr = pcall(function()
         connection:Connect();
 
-        local queryString = "SELECT COUNT(*) FROM EMailCopies WHERE TransactionNumber = " .. transactionNumber .. " AND Subject LIKE '" .. wildcardedSubject;
+        local queryString = "SELECT COUNT(*) FROM EMailCopies WHERE TransactionNumber = " .. transactionNumber .. " AND Subject LIKE '" .. wildcardedSubject .. "'";
         connection.QueryString = queryString;
         LogDatabaseQuery(queryString);
         
