@@ -1,0 +1,23 @@
+<Configuration>
+  <Name>Conditional Notifications server addon</Name>
+  <Author>Atlas Systems, Inc.</Author>
+  <Version>1.0.0</Version>
+  <Active>true</Active>
+  <Type>Server</Type>
+  <Description>Automatically sends a notification to the borrower for requests in the Request Conditionalized queue.</Description>
+  <Settings>
+    <Setting name="ArticleEmailName" value="" type="string">
+      <Description>Name of the notification template to send for conditionalized article requests.</Description>
+    </Setting>
+    <Setting name="LoanEmailName" value="" type="string">
+      <Description>Name of the notification template to send for conditionalized loan requests.</Description>
+    </Setting>
+    <Setting name="NVTGC" value="" type="string">
+      <Description>Comma-separated list of NVTGCs to process. Please list out all NVTGCs as they would appear in the NVTGC field on the Users form. If left blank, the addon will process transactions from all NVTGCs.</Description>
+    </Setting>
+  </Settings>
+  <Forms />
+  <Files>
+    <File>ConditionalNotifications.lua</File>
+  </Files>
+</Configuration>
