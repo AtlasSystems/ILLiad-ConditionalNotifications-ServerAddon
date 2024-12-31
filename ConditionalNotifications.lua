@@ -96,7 +96,7 @@ function SendConditionalNotifications()
     end
 
     local emailSent = HasEmailBeenSent(transactionNumber, templateName);
-    if emailSent then
+    if emailSent == true then
         log:Debug("Conditional notification has already been sent for transaction " .. transactionNumber .. ".");
         return;
     elseif emailSent == "error" then
@@ -128,14 +128,14 @@ function HasEmailBeenSent(transactionNumber, templateName)
         return "error";
     end
 
-    -- Replace template tags with SQL wildcards.
-    local wildcardedSubject = emailSubjectOrErr:gsub("<#.->", "%%");
+    -- Replace template tags with SQL wildcards and escape quotes.
+    local wildcardedSubject = emailSubjectOrErr:gsub("<#.->", "%%"):gsub("'", "''");
 
     local connection = CreateManagedDatabaseConnection();
     local success, subjectCountOrErr = pcall(function()
         connection:Connect();
 
-        local queryString = "SELECT COUNT(*) FROM EMailCopies WHERE TransactionNumber = " .. transactionNumber .. " AND Subject LIKE '" .. wildcardedSubject .. "'";
+        local queryString = "SELECT COUNT(*) FROM EMailCopies WHERE TransactionNumber = " .. transactionNumber .. " AND Subject LIKE '" .. wildcardedSubject;
         connection.QueryString = queryString;
         LogDatabaseQuery(queryString);
         
