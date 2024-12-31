@@ -7,10 +7,10 @@
   <Description>Automatically sends a notification to the borrower for requests in the Request Conditionalized queue.</Description>
   <Settings>
     <Setting name="ArticleEmailName" value="" type="string">
-      <Description>Name of the notification template to send for conditionalized article requests.</Description>
+      <Description>Name of the notification template to send for conditionalized article requests. Cannot contain the following characters: % _ [ ]</Description>
     </Setting>
     <Setting name="LoanEmailName" value="" type="string">
-      <Description>Name of the notification template to send for conditionalized loan requests.</Description>
+      <Description>Name of the notification template to send for conditionalized loan requests. Cannot contain the following characters: % _ [ ]</Description>
     </Setting>
     <Setting name="NVTGC" value="" type="string">
       <Description>Comma-separated list of NVTGCs to process. Please list out all NVTGCs as they would appear in the NVTGC field on the Users form. If left blank, the addon will process transactions from all NVTGCs.</Description>

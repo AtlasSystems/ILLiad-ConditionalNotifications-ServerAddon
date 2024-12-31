@@ -14,23 +14,34 @@ local sharedServerSupport = false;
 
 function Init()
     log:Debug("Initializing Conditional Notifications addon.");
-    InitializeSettings();
+
+    if not InitializeAndValidateSettings() then
+        return;
+    end
+
     RegisterSystemEventHandler("SystemTimerElapsed", "TimerElapsed");
 end
 
-function InitializeSettings();
+function InitializeAndValidateSettings();
     -- Initialize settings to be usable in SQL queries.
     if Settings.NVTGC:find("%w") then
         Settings.NVTGC = "'" .. Settings.NVTGC:gsub("%s*,%s*", ","):gsub(",", "','") .. "'";
     end
+
+    if not Settings.ArticleEmailName or Settings.ArticleEmailName == "" or not Settings.LoanEmailName or Settings.LoanEmailName == "" then
+        log:Warn("One or both e-mail name settings is blank. Please ensure both ArticleEmailName and LoanEmailName are valid notification template names.");
+        return false;
+    end
+
+    if Settings.ArticleEmailName:find("[%%_%[%]]") or Settings.LoanEmailName:find("[%%_%[%]]") then
+        log:Warn("One or both e-mail name settings contain one of the following forbidden characters: % _ [ ]\nPlease choose a template name that does not contain these characters.");
+        return false;
+    end
+
+    return true;
 end
 
 function TimerElapsed()
-    if not Settings.ArticleEmailName or Settings.ArticleEmailName == "" or not Settings.LoanEmailName or Settings.LoanEmailName == "" then
-        log:Warn("One or both e-mail name settings is blank. Please ensure both ArticleEmailName and LoanEmailName are valid notification template names.");
-        return;
-    end
-
     if not isCurrentlyProcessing then
         local connection = CreateManagedDatabaseConnection();
 
